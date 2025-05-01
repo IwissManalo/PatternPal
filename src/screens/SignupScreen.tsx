@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginTop: 160, // Adjusted to move the title down
+        marginTop: 210, // Adjusted to move the title down
         marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',

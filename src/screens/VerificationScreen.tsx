@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Keyboard } from 'react-native';
 
 export default function VerificationScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('');
@@ -40,7 +41,6 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                 onChangeText={setEmail}
             />
 
-            {/* Send Code to Email Button */}
             <TouchableOpacity
                 style={[
                     styles.button,
@@ -49,8 +49,7 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                 onPressIn={() => setIsPressed(true)}
                 onPressOut={() => setIsPressed(false)}
                 onPress={() => {
-                    console.log('Send Code to Email pressed');
-                    // Add email verification logic here
+                    navigation.navigate('EVerificationScreen'); // Use the correct screen name
                 }}
             >
                 <Text style={styles.buttonText}>SEND CODE TO EMAIL</Text>
@@ -70,7 +69,12 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                     placeholder="Enter your phone number"
                     placeholderTextColor="#999"
                     value={phoneNumber}
-                    onChangeText={setPhoneNumber}
+                    onChangeText={(text) => {
+                        setPhoneNumber(text);
+                        if (text.length === 11) { // Adjust the length as needed
+                            Keyboard.dismiss(); // Automatically dismiss the keyboard
+                        }
+                    }}
                     keyboardType="numeric"
                 />
             </View>
