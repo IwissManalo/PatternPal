@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,6 +10,31 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
     const [passwordVisible, setPasswordVisible] = useState(false); // Toggle password visibility
     const [keepLoggedIn, setKeepLoggedIn] = useState(false); // Checkbox state
     const [isPressed, setIsPressed] = useState(false); // Button press state
+
+    const handleLogin = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                Alert.alert('Success', 'Login successful');
+                navigation.navigate('HomepageScreen');
+            } else {
+                Alert.alert('Error', data.error || 'Login failed');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to login');
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -100,16 +125,14 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
                     styles.button,
                     isPressed && { backgroundColor: '#36B0F6' },
                 ]}
-                onPressIn={() => setIsPressed(true)}
-                onPressOut={() => setIsPressed(false)}
-                onPress={() => {
-                    console.log('Username:', username);
-                    console.log('Password:', password);
-                    navigation.navigate('HomepageScreen');
-                }}
-            >
-                <Text style={styles.buttonText}>LOG-IN</Text>
-            </TouchableOpacity>
+            onPressIn={() => setIsPressed(true)}
+            onPressOut={() => setIsPressed(false)}
+            onPress={() => {
+                handleLogin();
+            }}
+        >
+            <Text style={styles.buttonText}>LOG-IN</Text>
+        </TouchableOpacity>
 
             {/* Sign-up Text */}
             <View style={styles.signupContainer}>

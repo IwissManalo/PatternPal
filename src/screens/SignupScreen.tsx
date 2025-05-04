@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen({ navigation }: { navigation: any }) {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -11,11 +12,46 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
+    const handleRegister = async () => {
+        if (password !== confirmPassword) {
+            Alert.alert('Error', 'Passwords do not match');
+            return;
+        }
+        try {
+            const response = await fetch('http://localhost:3001/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    username,
+                    email,
+                    password,
+                    phone_number: '', // Add phone number if needed
+                    account_role: 'user', // Default role
+                    user_credit: 0, // Default credit
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                Alert.alert('Success', 'User registered successfully');
+                navigation.navigate('VerificationScreen');
+            } else {
+                Alert.alert('Error', data.error || 'Registration failed');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to register user');
+            console.error(error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             {/* Logo */}
             <Image
-                source={require('../assets/images/Logo.png')} // Ensure the path to the image is correct
+                source={require('../assets/images/Logo.png')}
                 style={styles.logo}
                 resizeMode="contain"
             />
@@ -29,19 +65,28 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             {/* Subtitle */}
             <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
 
-            {/* Full Name Input */}
+            {/* First Name Input */}
             <TextInput
                 style={styles.input}
                 placeholder="First Name"
                 placeholderTextColor="#999"
-                value={name}
-                onChangeText={setName}
+                value={firstName}
+                onChangeText={setFirstName}
+            />
+
+            {/* Last Name Input */}
+            <TextInput
+                style={styles.input}
+                placeholder="Last Name"
+                placeholderTextColor="#999"
+                value={lastName}
+                onChangeText={setLastName}
             />
 
             {/* Email Input */}
             <TextInput
                 style={styles.input}
-                placeholder="Last Name"
+                placeholder="Email"
                 placeholderTextColor="#999"
                 value={email}
                 onChangeText={setEmail}
@@ -97,10 +142,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             {/* Proceed Button */}
             <TouchableOpacity
                 style={styles.signupButton}
-                onPress={() => {
-                    console.log('Proceed pressed');
-                    navigation.navigate('VerificationScreen'); // Redirect to VerificationScreen
-                }}
+                onPress={handleRegister}
             >
                 <Text style={styles.signupButtonText}>PROCEED</Text>
             </TouchableOpacity>
@@ -122,19 +164,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#6BC9FF',
-        paddingTop: 30, // Added padding to move all elements down
+        paddingTop: 30,
     },
     logo: {
         width: 250,
         height: 250,
         marginTop: 5,
         position: 'absolute',
-        top: 50, // Adjusted to move the logo down
+        top: 50,
     },
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginTop: 210, // Adjusted to move the title down
+        marginTop: 210,
         marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',
