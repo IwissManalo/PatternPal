@@ -1,9 +1,6 @@
-/**
- * @format
- */
-
-import {AppRegistry} from 'react-native';
+// index.js (or index.tsx if you're using TypeScript)
+import { registerRootComponent } from 'expo';
 import App from './App';
-import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
+// This tells Expo to start your app with the <App /> component
+registerRootComponent(App);
