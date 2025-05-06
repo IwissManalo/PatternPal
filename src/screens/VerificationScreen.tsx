@@ -94,8 +94,7 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                         onPressIn={() => setIsPressed(true)}
                         onPressOut={() => setIsPressed(false)}
                         onPress={() => {
-                            console.log('Send Code to Phone pressed');
-                            // Add phone verification logic here
+                            navigation.navigate('PVerificationScreen'); // Redirect to PVerificationScreen
                         }}
                     >
                         <Text style={styles.buttonText}>SEND CODE TO PHONE</Text>
@@ -117,7 +116,7 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                     {/* Log-in Link */}
                     <View style={styles.loginContainer}>
                         <Text style={styles.loginText}>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
                             <Text style={styles.loginLink}>Log-in here</Text>
                         </TouchableOpacity>
                     </View>

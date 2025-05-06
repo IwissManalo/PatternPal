@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    Platform,
+    Animated,
 } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,13 +16,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 
-export default function HomeScreen({ navigation }: { navigation: any }) {
+export default function LoginScreen({ navigation }: { navigation: any }) {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
+    const [showSplash, setShowSplash] = useState(true); // State to control splash screen visibility
+
+    // Animated values for logo position, size, and horizontal movement
+    const logoPositionY = new Animated.Value(0); // Vertical position
+    const logoScale = new Animated.Value(1); // Scale of the logo
 
     useEffect(() => {
         async function loadFonts() {
@@ -32,10 +37,67 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
             setFontsLoaded(true);
         }
         loadFonts();
+
+        // Splash screen animation
+        setTimeout(() => {
+            const finalTranslateY = -(height / 2 - height * 0.34 / 2 - 10); // Adjust vertical movement
+            const spinValue = new Animated.Value(0); // Spin animation value
+
+            // Spin animation interpolation
+            const spin = spinValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg'], // Full rotation
+            });
+
+            Animated.sequence([
+                Animated.parallel([
+                    Animated.timing(logoPositionY, {
+                        toValue: finalTranslateY,
+                        duration: 1000,
+                        useNativeDriver: true,
+                    }),
+                    Animated.timing(logoScale, {
+                        toValue: 0.55, // Scale down the logo to match the size in the login screen
+                        duration: 1000,
+                        useNativeDriver: true,
+                    }),
+                ]),
+                Animated.timing(spinValue, {
+                    toValue: 1,
+                    duration: 500, // Spin duration
+                    useNativeDriver: true,
+                }),
+            ]).start(() => {
+                setShowSplash(false); // Hide splash screen after animation
+            });
+        }, 2000); // Show splash screen for 2 seconds
     }, []);
 
-    if (!fontsLoaded) {
-        return null;
+    if (showSplash) {
+        const spinValue = new Animated.Value(0); // Ensure spinValue is defined
+        const spin = spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg'], // Full rotation
+        });
+
+        return (
+            <View style={styles.splashContainer}>
+                <Animated.Image
+                    source={require('../assets/images/Logo.png')}
+                    style={[
+                        styles.splashLogo,
+                        {
+                            transform: [
+                                { translateY: logoPositionY },
+                                { scale: logoScale },
+                                { rotate: spin }, // Use the properly defined spin value
+                            ],
+                        },
+                    ]}
+                    resizeMode="contain"
+                />
+            </View>
+        );
     }
 
     return (
@@ -137,20 +199,30 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         alignItems: 'center',
-        paddingTop: 20, // Adjust padding top for better alignment at the top
-        paddingBottom: 50, // Ensure there is some padding at the bottom
+        paddingTop: 20,
+        paddingBottom: 50,
+    },
+    splashContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFDA7D',
+    },
+    splashLogo: {
+        width: width * 0.8, // Start with a larger size for the splash screen
+        height: height * 0.4,
     },
     logo: {
-        width: width * 0.55,
+        width: width * 0.55, // Final size of the logo in the login screen
         height: height * 0.34,
-        marginTop: 10, // Adjusted marginTop to ensure proper alignment
-        marginBottom: -40
+        marginTop: 10,
+        marginBottom: -40,
     },
     title: {
-        fontSize: 40,
+        fontSize: width * 0.1,
         fontWeight: 'bold',
-        marginTop: 25, // Reduced the top margin
-        marginBottom: 10, // Retained a gap after the title
+        marginTop: 25,
+        marginBottom: 10,
         textAlign: 'center',
         fontFamily: 'Scripter',
         letterSpacing: 8,
@@ -161,7 +233,7 @@ const styles = StyleSheet.create({
         color: '#333333',
         textAlign: 'center',
         marginBottom: 30,
-        marginTop: -8,// Added a smaller gap after the subtitle
+        marginTop: -8,
         letterSpacing: 2.72,
     },
     input: {
@@ -172,7 +244,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#F5B820',
         paddingHorizontal: 15,
-        marginBottom: 12, // Adjusted margin for proper spacing between inputs
+        marginBottom: 12,
         fontSize: 16,
         color: '#333',
         fontFamily: 'Inter',
@@ -188,7 +260,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 15,
-        marginBottom: 18, // Adjusted spacing between password fields
+        marginBottom: 18,
     },
     passwordInput: {
         flex: 1,
@@ -202,7 +274,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 18, // Spacing between options
+        marginBottom: 18,
     },
     checkboxContainer: {
         flexDirection: 'row',
@@ -272,7 +344,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 40, // Reduced top margin for button
+        marginTop: 40,
         marginBottom: 50,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
