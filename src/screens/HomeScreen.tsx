@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+    Dimensions,
+    Platform,
+} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const { width, height } = Dimensions.get('window');
 
 export default function HomeScreen({ navigation }: { navigation: any }) {
     const [fontsLoaded, setFontsLoaded] = useState(false);
-    const [username, setUsername] = useState(''); // State for username/email
-    const [password, setPassword] = useState(''); // State for password
-    const [passwordVisible, setPasswordVisible] = useState(false); // Toggle password visibility
-    const [keepLoggedIn, setKeepLoggedIn] = useState(false); // Checkbox state
-    const [isPressed, setIsPressed] = useState(false); // Button press state
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+    const [isPressed, setIsPressed] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -26,131 +39,129 @@ export default function HomeScreen({ navigation }: { navigation: any }) {
     }
 
     return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image
-                source={require('../assets/images/Logo.png')} // Correct path to Logo.png
-                style={styles.logo}
-                resizeMode="contain"
-            />
-
-            {/* Title */}
-            <Text style={styles.title}>
-                <Text style={styles.pattern}>PATTERN</Text>
-                <Text style={styles.pal}>PAL</Text>
-            </Text>
-
-            {/* Subtitle */}
-            <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
-
-            {/* Username or Email Input */}
-            <TextInput
-                style={styles.input}
-                placeholder="Username or email"
-                placeholderTextColor="#999"
-                value={username}
-                onChangeText={setUsername}
-            />
-
-            {/* Password Input with Eye Icon */}
-            <View style={styles.passwordContainer}>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Password"
-                    placeholderTextColor="#999"
-                    secureTextEntry={!passwordVisible}
-                    value={password}
-                    onChangeText={setPassword}
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
+                {/* Logo */}
+                <Image
+                    source={require('../assets/images/Logo.png')}
+                    style={styles.logo}
+                    resizeMode="contain"
                 />
-                <TouchableOpacity
-                    onPress={() => setPasswordVisible(!passwordVisible)}
-                >
-                    <Ionicons
-                        name={passwordVisible ? 'eye' : 'eye-off'}
-                        size={24}
-                        color="#999"
+
+                {/* Title */}
+                <Text style={styles.title}>
+                    <Text style={styles.pattern}>PATTERN</Text>
+                    <Text style={styles.pal}>PAL</Text>
+                </Text>
+
+                {/* Subtitle */}
+                <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
+
+                {/* Username or Email Input */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Username or email"
+                    placeholderTextColor="#999"
+                    value={username}
+                    onChangeText={setUsername}
+                />
+
+                {/* Password Input with Eye Icon */}
+                <View style={styles.passwordContainer}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor="#999"
+                        secureTextEntry={!passwordVisible}
+                        value={password}
+                        onChangeText={setPassword}
                     />
-                </TouchableOpacity>
-            </View>
-
-            {/* Checkbox and Forgot Password */}
-            <View style={styles.optionsContainer}>
-                <View style={styles.checkboxContainer}>
-                    <TouchableOpacity
-                        style={[
-                            styles.checkbox,
-                            keepLoggedIn && { backgroundColor: '#F5B820' },
-                        ]}
-                        onPress={() => setKeepLoggedIn(!keepLoggedIn)}
-                    >
-                        {keepLoggedIn && (
-                            <Text style={styles.checkmark}>✔</Text>
-                        )}
+                    <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
+                        <Ionicons
+                            name={passwordVisible ? 'eye' : 'eye-off'}
+                            size={24}
+                            color="#999"
+                        />
                     </TouchableOpacity>
-                    <Text style={styles.checkboxLabel}>Keep me logged in</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('ForgotpassScreen')}>
-                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                </TouchableOpacity>
-            </View>
 
-            {/* Login Button */}
-            <TouchableOpacity
-                style={[
-                    styles.button,
-                    isPressed && { backgroundColor: '#36B0F6' },
-                ]}
-                onPressIn={() => setIsPressed(true)}
-                onPressOut={() => setIsPressed(false)}
-                onPress={() => {
-                    console.log('Username:', username);
-                    console.log('Password:', password);
-                    navigation.navigate('HomepageScreen');
-                }}
-            >
-                <Text style={styles.buttonText}>LOG-IN</Text>
-            </TouchableOpacity>
+                {/* Checkbox and Forgot Password */}
+                <View style={styles.optionsContainer}>
+                    <View style={styles.checkboxContainer}>
+                        <TouchableOpacity
+                            style={[
+                                styles.checkbox,
+                                keepLoggedIn && { backgroundColor: '#F5B820' },
+                            ]}
+                            onPress={() => setKeepLoggedIn(!keepLoggedIn)}
+                        >
+                            {keepLoggedIn && <Text style={styles.checkmark}>✔</Text>}
+                        </TouchableOpacity>
+                        <Text style={styles.checkboxLabel}>Keep me logged in</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('ForgotpassScreen')}>
+                        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                    </TouchableOpacity>
+                </View>
 
-            {/* Sign-up Text */}
-            <View style={styles.signupContainer}>
-                <Text style={styles.signupText}>Don't have an account yet?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-                    <Text style={styles.signupLink}>Sign up here</Text>
+                {/* Login Button */}
+                <TouchableOpacity
+                    style={[styles.button, isPressed && { backgroundColor: '#36B0F6' }]}
+                    onPressIn={() => setIsPressed(true)}
+                    onPressOut={() => setIsPressed(false)}
+                    onPress={() => {
+                        console.log('Username:', username);
+                        console.log('Password:', password);
+                        navigation.navigate('HomepageScreen');
+                    }}
+                >
+                    <Text style={styles.buttonText}>LOG-IN</Text>
                 </TouchableOpacity>
-            </View>
-        </View>
+
+                {/* Sign-up Text */}
+                <View style={styles.signupContainer}>
+                    <Text style={styles.signupText}>Don't have an account yet?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+                        <Text style={styles.signupLink}>Sign up here</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    safeArea: {
         flex: 1,
         backgroundColor: '#FFDA7D',
-        justifyContent: 'center',
+    },
+    scrollContainer: {
         alignItems: 'center',
+        paddingTop: 20, // Adjust padding top for better alignment at the top
+        paddingBottom: 50, // Ensure there is some padding at the bottom
     },
     logo: {
-        width: 250,
-        height: 250,
-        marginTop: 50,
-        position: 'absolute',
-        top: 40,
+        width: width * 0.55,
+        height: height * 0.34,
+        marginTop: 10, // Adjusted marginTop to ensure proper alignment
+        marginBottom: -40
     },
     title: {
         fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 180,
-        marginBottom: 5,
+        marginTop: 25, // Reduced the top margin
+        marginBottom: 10, // Retained a gap after the title
         textAlign: 'center',
-        fontFamily: 'Arial',
+        fontFamily: 'Scripter',
         letterSpacing: 8,
     },
     subtitle: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: 'Inter Medium',
         color: '#333333',
         textAlign: 'center',
-        marginBottom: 45,
+        marginBottom: 30,
+        marginTop: -8,// Added a smaller gap after the subtitle
         letterSpacing: 2.72,
     },
     input: {
@@ -161,15 +172,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#F5B820',
         paddingHorizontal: 15,
-        marginBottom: 8,
-        marginTop: 8,
+        marginBottom: 12, // Adjusted margin for proper spacing between inputs
         fontSize: 16,
         color: '#333',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
         fontFamily: 'Inter',
         fontWeight: 'bold',
     },
@@ -183,12 +188,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 15,
-        marginBottom: 18,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
+        marginBottom: 18, // Adjusted spacing between password fields
     },
     passwordInput: {
         flex: 1,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 18,
+        marginBottom: 18, // Spacing between options
     },
     checkboxContainer: {
         flexDirection: 'row',
@@ -248,7 +248,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: 40,
+        bottom: 60,
+        marginBottom: 10,
     },
     signupText: {
         fontSize: 14,
@@ -271,8 +272,8 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        bottom: 70,
+        marginTop: 40, // Reduced top margin for button
+        marginBottom: 50,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,

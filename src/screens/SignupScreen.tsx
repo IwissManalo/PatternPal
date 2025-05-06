@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
 
 export default function SignupScreen({ navigation }: { navigation: any }) {
     const [name, setName] = useState('');
@@ -12,140 +14,154 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
     return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image
-                source={require('../assets/images/Logo.png')} // Ensure the path to the image is correct
-                style={styles.logo}
-                resizeMode="contain"
-            />
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Keyboard adjustment for iOS & Android
+        >
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+                    {/* Logo and Sticky Header */}
+                    <View style={styles.stickyHeader}>
+                        <Image
+                            source={require('../assets/images/Logo.png')} // Ensure the path to the image is correct
+                            style={styles.logo}
+                            resizeMode="contain"
+                        />
 
-            {/* Title */}
-            <Text style={styles.title}>
-                <Text style={styles.pattern}>PATTERN</Text>
-                <Text style={styles.pal}>PAL</Text>
-            </Text>
+                        {/* Title */}
+                        <Text style={styles.title}>
+                            <Text style={styles.pattern}>PATTERN</Text>
+                            <Text style={styles.pal}>PAL</Text>
+                        </Text>
 
-            {/* Subtitle */}
-            <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
+                        {/* Subtitle */}
+                        <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
+                    </View>
 
-            {/* Full Name Input */}
-            <TextInput
-                style={styles.input}
-                placeholder="First Name"
-                placeholderTextColor="#999"
-                value={name}
-                onChangeText={setName}
-            />
-
-            {/* Email Input */}
-            <TextInput
-                style={styles.input}
-                placeholder="Last Name"
-                placeholderTextColor="#999"
-                value={email}
-                onChangeText={setEmail}
-            />
-
-            {/* Username Input */}
-            <TextInput
-                style={styles.input}
-                placeholder="Username"
-                placeholderTextColor="#999"
-                value={username}
-                onChangeText={setUsername}
-            />
-
-            {/* Password Input */}
-            <View style={styles.passwordContainer}>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Password"
-                    placeholderTextColor="#999"
-                    secureTextEntry={!passwordVisible}
-                    value={password}
-                    onChangeText={setPassword}
-                />
-                <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-                    <Ionicons
-                        name={passwordVisible ? 'eye' : 'eye-off'}
-                        size={24}
-                        color="#999"
+                    {/* Form Inputs */}
+                    <TextInput
+                        style={styles.input}
+                        placeholder="First Name"
+                        placeholderTextColor="#999"
+                        value={name}
+                        onChangeText={setName}
                     />
-                </TouchableOpacity>
-            </View>
 
-            {/* Confirm Password Input */}
-            <View style={styles.passwordContainer}>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Confirm Password"
-                    placeholderTextColor="#999"
-                    secureTextEntry={!confirmPasswordVisible}
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                />
-                <TouchableOpacity onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
-                    <Ionicons
-                        name={confirmPasswordVisible ? 'eye' : 'eye-off'}
-                        size={24}
-                        color="#999"
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Last Name"
+                        placeholderTextColor="#999"
+                        value={email}
+                        onChangeText={setEmail}
                     />
-                </TouchableOpacity>
-            </View>
 
-            {/* Proceed Button */}
-            <TouchableOpacity
-                style={styles.signupButton}
-                onPress={() => {
-                    console.log('Proceed pressed');
-                    navigation.navigate('VerificationScreen'); // Redirect to VerificationScreen
-                }}
-            >
-                <Text style={styles.signupButtonText}>PROCEED</Text>
-            </TouchableOpacity>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Username"
+                        placeholderTextColor="#999"
+                        value={username}
+                        onChangeText={setUsername}
+                    />
 
-            {/* Log-in Link */}
-            <View style={styles.loginContainer}>
-                <Text style={styles.loginText}>Already have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.loginLink}>Log-in here</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+                    {/* Password Input */}
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Password"
+                            placeholderTextColor="#999"
+                            secureTextEntry={!passwordVisible}
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+                        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
+                            <Ionicons
+                                name={passwordVisible ? 'eye' : 'eye-off'}
+                                size={24}
+                                color="#999"
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Confirm Password Input */}
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Confirm Password"
+                            placeholderTextColor="#999"
+                            secureTextEntry={!confirmPasswordVisible}
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
+                        <TouchableOpacity onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
+                            <Ionicons
+                                name={confirmPasswordVisible ? 'eye' : 'eye-off'}
+                                size={24}
+                                color="#999"
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Proceed Button */}
+                    <TouchableOpacity
+                        style={styles.signupButton}
+                        onPress={() => {
+                            console.log('Proceed pressed');
+                            navigation.navigate('VerificationScreen'); // Redirect to VerificationScreen
+                        }}
+                    >
+                        <Text style={styles.signupButtonText}>PROCEED</Text>
+                    </TouchableOpacity>
+
+                    {/* Log-in Link */}
+                    <View style={styles.loginContainer}>
+                        <Text style={styles.loginText}>Already have an account?</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                            <Text style={styles.loginLink}>Log-in here</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#6BC9FF',
-        paddingTop: 30, // Added padding to move all elements down
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
+        justifyContent: 'flex-start', // Align items to the top
+        alignItems: 'center',
+        paddingTop: 10, // Reduced space for better alignment towards the top
+        paddingBottom: 30, // Bottom padding for smoother scrolling
+    },
+    stickyHeader: {
+        alignItems: 'center',
+        marginTop: 20, // Set proper space between logo and the top of the screen
+        marginBottom: 25, // Controlled space after header elements
     },
     logo: {
-        width: 250,
-        height: 250,
-        marginTop: -35,
-        position: 'absolute',
-        top: 50, // Adjusted to move the logo down
+        width: width * 0.8, // 60% of the screen width
+        height: height * 0.34, // 30% of the screen height
+        marginBottom: 15, // Ensure space between logo and title
     },
     title: {
-        fontSize: 40,
+        fontSize: width * 0.1, // Responsive to screen width
         fontWeight: 'bold',
-        marginTop: 260, // Adjusted to move the title down
+        marginTop: 0,
         marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',
         letterSpacing: 8,
     },
     subtitle: {
-        fontSize: 20,
+        fontSize: 18, // Responsive to screen width
         fontFamily: 'Inter Medium',
         color: '#333333',
         textAlign: 'center',
-        marginBottom: 45,
+        marginBottom: 18, // Ensure spacing after the subtitle before form inputs
         letterSpacing: 2.72,
     },
     pattern: {
@@ -162,8 +178,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#F5B820',
         paddingHorizontal: 15,
-        marginBottom: 10,
-        fontSize: 16,
+        marginBottom: 15, // Consistent space between inputs
+        fontSize: width * 0.04,
         color: '#333',
         fontWeight: 'bold',
     },
@@ -177,11 +193,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 15,
-        marginBottom: 8,
+        marginBottom: 12, // Slightly more space between password fields
     },
     passwordInput: {
         flex: 1,
-        fontSize: 16,
+        fontSize: width * 0.04, // Responsive font size
         fontWeight: 'bold',
         color: '#333',
     },
@@ -199,7 +215,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
     },
     signupButtonText: {
-        fontSize: 15,
+        fontSize: width * 0.04, // Responsive font size
         fontFamily: 'Inter',
         fontWeight: 'bold',
         color: '#FFFFFF',
@@ -208,16 +224,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: 10,
     },
     loginText: {
-        fontSize: 14,
+        fontSize: width * 0.04, // Responsive font size
         fontFamily: 'Inter',
         color: '#000000',
         fontWeight: 'bold',
     },
     loginLink: {
-        fontSize: 14,
+        fontSize: width * 0.04, // Responsive font size
         fontFamily: 'Inter',
         color: '#FFFFFF',
         marginLeft: 5,
