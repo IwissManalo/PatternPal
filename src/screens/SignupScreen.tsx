@@ -127,14 +127,14 @@ const styles = StyleSheet.create({
     logo: {
         width: 250,
         height: 250,
-        marginTop: 5,
+        marginTop: -35,
         position: 'absolute',
         top: 50, // Adjusted to move the logo down
     },
     title: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 210, // Adjusted to move the title down
+        marginTop: 260, // Adjusted to move the title down
         marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',

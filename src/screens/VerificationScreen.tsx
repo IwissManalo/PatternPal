@@ -129,14 +129,14 @@ const styles = StyleSheet.create({
     logo: {
         width: 250,
         height: 250,
-        marginTop: 5,
+        marginTop: -20,
         position: 'absolute',
         top: 20,
     },
     title: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 210,
+        marginTop: 280,
         marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',

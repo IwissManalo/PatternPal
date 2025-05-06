@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
         top: 40,
     },
     title: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 140,
+        marginTop: 180,
         marginBottom: 5,
         textAlign: 'center',
-        fontFamily: 'Scripter',
+        fontFamily: 'Arial',
         letterSpacing: 8,
     },
     subtitle: {
