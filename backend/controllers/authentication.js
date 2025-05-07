@@ -8,8 +8,8 @@ const otpStore = new Map();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'your-email@gmail.com', // replace with your email
-    pass: 'your-email-password'   // replace with your email password or app password
+    user: process.env.EMAIL_USER, // email stored in environment variable
+    pass: process.env.EMAIL_PASS  // password stored in environment variable
   }
 });
 
@@ -21,7 +21,7 @@ function generateOTP() {
 // Send OTP email
 async function sendOTPEmail(email, otp) {
   const mailOptions = {
-    from: 'your-email@gmail.com', // replace with your email
+    from: process.env.EMAIL_USER, // use email from environment variable
     to: email,
     subject: 'Your OTP Code',
     text: `Your OTP code is ${otp}. It will expire in 10 minutes.`
