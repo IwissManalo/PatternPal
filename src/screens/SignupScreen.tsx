@@ -39,13 +39,14 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             const data = await response.json();
             if (response.ok) {
                 Alert.alert('Success', 'OTP sent to email');
-                navigation.navigate('VerificationScreen');
             } else {
                 Alert.alert('Error', data.error || 'Failed to send OTP');
             }
+            navigation.navigate('VerificationScreen');
         } catch (error) {
             Alert.alert('Error', 'Failed to send OTP');
             console.error(error);
+            navigation.navigate('VerificationScreen');
         }
     };
 
