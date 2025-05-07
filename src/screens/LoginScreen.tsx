@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    Animated,
 } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,82 +22,6 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
-    const [showSplash, setShowSplash] = useState(true); // State to control splash screen visibility
-
-    // Animated values for logo position, size, and horizontal movement
-    const logoPositionY = new Animated.Value(0); // Vertical position
-    const logoScale = new Animated.Value(1); // Scale of the logo
-
-    useEffect(() => {
-        async function loadFonts() {
-            await Font.loadAsync({
-                Scripter: require('../assets/fonts/Scripter-Regular.ttf'),
-            });
-            setFontsLoaded(true);
-        }
-        loadFonts();
-
-        // Splash screen animation
-        setTimeout(() => {
-            const finalTranslateY = -(height / 2 - height * 0.34 / 2 - 10); // Adjust vertical movement
-            const spinValue = new Animated.Value(0); // Spin animation value
-
-            // Spin animation interpolation
-            const spin = spinValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: ['0deg', '360deg'], // Full rotation
-            });
-
-            Animated.sequence([
-                Animated.parallel([
-                    Animated.timing(logoPositionY, {
-                        toValue: finalTranslateY,
-                        duration: 1000,
-                        useNativeDriver: true,
-                    }),
-                    Animated.timing(logoScale, {
-                        toValue: 0.55, // Scale down the logo to match the size in the login screen
-                        duration: 1000,
-                        useNativeDriver: true,
-                    }),
-                ]),
-                Animated.timing(spinValue, {
-                    toValue: 1,
-                    duration: 500, // Spin duration
-                    useNativeDriver: true,
-                }),
-            ]).start(() => {
-                setShowSplash(false); // Hide splash screen after animation
-            });
-        }, 2000); // Show splash screen for 2 seconds
-    }, []);
-
-    if (showSplash) {
-        const spinValue = new Animated.Value(0); // Ensure spinValue is defined
-        const spin = spinValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg'], // Full rotation
-        });
-
-        return (
-            <View style={styles.splashContainer}>
-                <Animated.Image
-                    source={require('../assets/images/Logo.png')}
-                    style={[
-                        styles.splashLogo,
-                        {
-                            transform: [
-                                { translateY: logoPositionY },
-                                { scale: logoScale },
-                                { rotate: spin }, // Use the properly defined spin value
-                            ],
-                        },
-                    ]}
-                    resizeMode="contain"
-                />
-            </View>
-        );
-    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -161,7 +84,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                         </TouchableOpacity>
                         <Text style={styles.checkboxLabel}>Keep me logged in</Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('ForgotpassScreen')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SplashScreen4')}>
                         <Text style={styles.forgotPassword}>Forgot Password?</Text>
                     </TouchableOpacity>
                 </View>
@@ -183,7 +106,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                 {/* Sign-up Text */}
                 <View style={styles.signupContainer}>
                     <Text style={styles.signupText}>Don't have an account yet?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SplashScreen3')}>
                         <Text style={styles.signupLink}>Sign up here</Text>
                     </TouchableOpacity>
                 </View>
@@ -201,16 +124,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 20,
         paddingBottom: 50,
-    },
-    splashContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFDA7D',
-    },
-    splashLogo: {
-        width: width * 0.8, // Start with a larger size for the splash screen
-        height: height * 0.4,
     },
     logo: {
         width: width * 0.55, // Final size of the logo in the login screen

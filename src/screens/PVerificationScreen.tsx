@@ -122,7 +122,7 @@ export default function PVerificationScreen({ navigation }: { navigation: any })
                             style={styles.modalButton}
                             onPress={() => {
                                 setIsModalVisible(false);
-                                navigation.navigate('LoginScreen'); // Redirect to HomeScreen
+                                navigation.navigate('SplashScreen2'); // Redirect to HomeScreen
                             }}
                         >
                             <Text style={styles.modalButtonText}>CONTINUE TO LOG-IN</Text>

@@ -35,8 +35,8 @@ export default function ForgotpassScreen({ navigation }: { navigation: any }) {
                     <View style={styles.line} />
 
                     {/* Instruction Text */}
-                    <Text style={styles.loginText}>To create your account we need to verify</Text>
-                    <Text style={styles.loginText1}>your contact information first</Text>
+                    <Text style={styles.loginText}>To reset your password we need to verify</Text>
+                    <Text style={styles.loginText1}>your registered contact information</Text>
 
                     {/* Email Input */}
                     <TextInput
@@ -55,7 +55,7 @@ export default function ForgotpassScreen({ navigation }: { navigation: any }) {
                         onPressIn={() => setIsPressed(true)}
                         onPressOut={() => setIsPressed(false)}
                         onPress={() => {
-                            navigation.navigate('EVerificationScreen'); // Use the correct screen name
+                            navigation.navigate('EForgotpassScreen'); // Use the correct screen name
                         }}
                     >
                         <Text style={styles.buttonText}>SEND CODE TO EMAIL</Text>
@@ -94,7 +94,7 @@ export default function ForgotpassScreen({ navigation }: { navigation: any }) {
                         onPressIn={() => setIsPressed(true)}
                         onPressOut={() => setIsPressed(false)}
                         onPress={() => {
-                            navigation.navigate('PVerificationScreen'); // Redirect to PVerificationScreen
+                            navigation.navigate('PForgotpassScreen'); // Redirect to PVerificationScreen
                         }}
                     >
                         <Text style={styles.buttonText}>SEND CODE TO PHONE</Text>
@@ -116,7 +116,7 @@ export default function ForgotpassScreen({ navigation }: { navigation: any }) {
                     {/* Log-in Link */}
                     <View style={styles.loginContainer}>
                         <Text style={styles.loginText}>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('SplashScreen2')}>
                             <Text style={styles.loginLink}>Log-in here</Text>
                         </TouchableOpacity>
                     </View>
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     loginLink: {
         fontSize: width * 0.04, // Responsive font size
         fontFamily: 'Inter',
-        color: '#FFFFFF',
+        color: '#36B0F6',
         marginLeft: -12,
         textDecorationLine: 'underline',
         fontWeight: 'bold',

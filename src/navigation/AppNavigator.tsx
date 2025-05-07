@@ -8,15 +8,25 @@ import ForgotpassScreen from '../screens/ForgotpassScreen';
 import VerificationScreen from '../screens/VerificationScreen';
 import EVerificationScreen from '../screens/EVerificationScreen';
 import PVerificationScreen from '../screens/PVerificationScreen';
+import EForgotpassScreen from '../screens/EForgotpassScreen';
+import PForgotpassScreen from '../screens/PForgotpassScreen';
 import LoginScreen from '../screens/LoginScreen';
-
+import StartScreen from '../screens/StartScreen';
+import SplashScreen1 from '../screens/SplashScreen1';
+import SplashScreen2 from '../screens/SplashScreen2';
+import SplashScreen3 from '../screens/SplashScreen3';
+import SplashScreen4 from '../screens/SplashScreen4';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName="SplashScreen1" screenOptions={{ headerShown: false }}>
+                <Stack.Screen
+                    name="StartScreen"
+                    component={StartScreen}
+                />
                 <Stack.Screen
                     name="LoginScreen"
                     component={LoginScreen}
@@ -48,6 +58,30 @@ export default function AppNavigator() {
                 <Stack.Screen
                     name="PVerificationScreen"
                     component={PVerificationScreen}
+                />
+                <Stack.Screen
+                    name="EForgotpassScreen"
+                    component={EForgotpassScreen}
+                />
+                <Stack.Screen
+                    name="PForgotpassScreen"
+                    component={PForgotpassScreen}
+                />
+                <Stack.Screen
+                    name="SplashScreen1"
+                    component={SplashScreen1}
+                />
+                <Stack.Screen
+                    name="SplashScreen2"
+                    component={SplashScreen2}
+                />
+                <Stack.Screen
+                    name="SplashScreen3"
+                    component={SplashScreen3}
+                />
+                <Stack.Screen
+                    name="SplashScreen4"
+                    component={SplashScreen4}
                 />
             </Stack.Navigator>
         </NavigationContainer>
