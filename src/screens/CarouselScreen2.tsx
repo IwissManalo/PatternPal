@@ -29,15 +29,25 @@ export default function CarouselScreen2({ navigation }: { navigation: any }) {
                     style={styles.logoInContainer}
                     resizeMode="cover" // Adjust image to fill the container
                 />
-
                 {/* Circle Indicators at the bottom of the container */}
                 <View style={styles.circleContainer}>
-                    <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
-                    <View style={[styles.circle, { backgroundColor: '#F5B820' }]} />
-                    <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen1')} // Navigate to CarouselScreen1
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen2')} // Navigate to CarouselScreen2
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#F5B820' }]} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen3')} // Navigate to CarouselScreen3
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    </TouchableOpacity>
                 </View>
             </View>
-
             {/* Bottom Logo */}
             <Image
                 source={require('../assets/images/Logo.png')} // Ensure the path to Logo.png is correct
@@ -124,7 +134,7 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         position: 'absolute',
-        width: 87,
+        width: 106,
         bottom: 30,
         right: 20,
         backgroundColor: '#F5B820',
@@ -136,5 +146,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#FFFFFF',
+        textAlign: 'center',
     },
 });

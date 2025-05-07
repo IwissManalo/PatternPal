@@ -43,9 +43,21 @@ export default function CarouselScreen1({ navigation }: { navigation: any }) {
 
                 {/* Circle Indicators at the bottom of the container */}
                 <View style={styles.circleContainer}>
-                    <View style={[styles.circle, { backgroundColor: '#F5B820' }]} />
-                    <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
-                    <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen1')} // Navigate to CarouselScreen1
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#F5B820' }]} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen2')} // Navigate to CarouselScreen2
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CarouselScreen3')} // Navigate to CarouselScreen3
+                    >
+                        <View style={[styles.circle, { backgroundColor: '#004AAD' }]} />
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -135,16 +147,18 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         position: 'absolute',
+        width: 106,
         bottom: 30,
         right: 20,
         backgroundColor: '#F5B820',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: 50,
     },
     nextButtonText: {
         fontSize: 16,
         fontWeight: 'bold',
         color: '#FFFFFF',
+        textAlign: 'center',
     },
 });
