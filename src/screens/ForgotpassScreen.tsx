@@ -1,85 +1,174 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default function ForgotpassScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [isPressed, setIsPressed] = useState(false);
 
     return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image
-                source={require('../assets/images/Logo.png')} // Correct path to Logo.png
-                style={styles.logo}
-                resizeMode="contain"
-            />
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Adjust for iOS and Android
+        >
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+                    {/* Logo */}
+                    <Image
+                        source={require('../assets/images/Logo.png')} // Ensure the path to the image is correct
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
 
-            {/* Title */}
-            <Text style={styles.title}>
-                <Text style={styles.pattern}>PATTERN</Text>
-                <Text style={styles.pal}>PAL</Text>
-            </Text>
+                    {/* Title */}
+                    <Text style={styles.title}>
+                        <Text style={styles.pattern}>PATTERN</Text>
+                        <Text style={styles.pal}>PAL</Text>
+                    </Text>
 
-            {/* Instruction Text */}
-            <Text style={styles.subtitle}>
-                Enter your email address to reset your password.
-            </Text>
+                    {/* Subtitle */}
+                    <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
 
-            {/* Email Input */}
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#999"
-                value={email}
-                onChangeText={setEmail}
-            />
+                    {/* Line */}
+                    <View style={styles.line} />
 
-            {/* Reset Password Button */}
-            <TouchableOpacity
-                style={styles.resetButton}
-                onPress={() => {
-                    console.log('Reset Password pressed');
-                    navigation.goBack(); // Navigate back to LoginScreen after resetting
-                }}
-            >
-                <Text style={styles.resetButtonText}>Reset Password</Text>
-            </TouchableOpacity>
-        </View>
+                    {/* Instruction Text */}
+                    <Text style={styles.loginText}>To create your account we need to verify</Text>
+                    <Text style={styles.loginText1}>your contact information first</Text>
+
+                    {/* Email Input */}
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your email"
+                        placeholderTextColor="#999"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+
+                    <TouchableOpacity
+                        style={[
+                            styles.button,
+                            isPressed && { backgroundColor: '#36B0F6' },
+                        ]}
+                        onPressIn={() => setIsPressed(true)}
+                        onPressOut={() => setIsPressed(false)}
+                        onPress={() => {
+                            navigation.navigate('EVerificationScreen'); // Use the correct screen name
+                        }}
+                    >
+                        <Text style={styles.buttonText}>SEND CODE TO EMAIL</Text>
+                    </TouchableOpacity>
+
+                    {/* Or Text */}
+                    <Text style={styles.loginText2}>Or</Text>
+
+                    {/* Phone Number Input with Philippine Flag */}
+                    <View style={styles.phoneInputContainer}>
+                        <Image
+                            source={require('../assets/images/philippine-flag.png')} // Add the Philippine flag image
+                            style={styles.flagIcon}
+                        />
+                        <TextInput
+                            style={styles.phoneInput}
+                            placeholder="Enter your phone number"
+                            placeholderTextColor="#999"
+                            value={phoneNumber}
+                            onChangeText={(text) => {
+                                setPhoneNumber(text);
+                                if (text.length === 11) { // Adjust the length as needed
+                                    Keyboard.dismiss(); // Automatically dismiss the keyboard
+                                }
+                            }}
+                            keyboardType="numeric"
+                        />
+                    </View>
+
+                    {/* Send Code to Phone Button */}
+                    <TouchableOpacity
+                        style={[
+                            styles.button,
+                            isPressed && { backgroundColor: '#36B0F6' },
+                        ]}
+                        onPressIn={() => setIsPressed(true)}
+                        onPressOut={() => setIsPressed(false)}
+                        onPress={() => {
+                            navigation.navigate('PVerificationScreen'); // Redirect to PVerificationScreen
+                        }}
+                    >
+                        <Text style={styles.buttonText}>SEND CODE TO PHONE</Text>
+                    </TouchableOpacity>
+
+                    {/* Back Button */}
+                    <TouchableOpacity
+                        style={[
+                            styles.button1,
+                            isPressed && { backgroundColor: '#36B0F6' },
+                        ]}
+                        onPressIn={() => setIsPressed(true)}
+                        onPressOut={() => setIsPressed(false)}
+                        onPress={() => navigation.navigate('SignupScreen')}
+                    >
+                        <Text style={styles.buttonText}>BACK</Text>
+                    </TouchableOpacity>
+
+                    {/* Log-in Link */}
+                    <View style={styles.loginContainer}>
+                        <Text style={styles.loginText}>Already have an account?</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                            <Text style={styles.loginLink}>Log-in here</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
+        justifyContent: 'flex-start', // Align items to the top
         alignItems: 'center',
-        backgroundColor: '#FFDA7D',
-        paddingHorizontal: 20,
+        paddingTop: 20, // Adjusted for padding at the top
+        paddingBottom: 30, // Ensures bottom padding for smooth scrolling
     },
     logo: {
-        width: 200,
-        height: 200,
-        marginBottom: 20,
+        width: width * 0.6, // 60% of the screen width
+        height: height * 0.3, // 30% of the screen height
+        marginTop: 20,
+        marginBottom: 15, // Space between logo and title
     },
     title: {
-        fontSize: 50,
+        fontSize: width * 0.1, // 10% of the screen width for responsiveness
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 5,
         textAlign: 'center',
         fontFamily: 'Scripter',
         letterSpacing: 8,
-    },
-    pattern: {
-        color: '#D36F02',
-    },
-    pal: {
-        color: '#004AAD',
+        position: 'absolute', // Stick the title to the top
+        top: height * 0.3 + 25, // Positioned after the logo
     },
     subtitle: {
-        fontSize: 16,
-        color: '#555',
+        fontSize: width * 0.05, // Responsive font size
+        fontFamily: 'Inter Medium',
+        color: '#333333',
         textAlign: 'center',
+        marginBottom: 30,
+        marginTop: 40,
+        letterSpacing: 2.72,
+    },
+    line: {
+        width: '80%',
+        height: 3,
+        backgroundColor: '#004AAD',
         marginBottom: 20,
-        fontFamily: 'Inter',
     },
     input: {
         width: '80%',
@@ -90,23 +179,112 @@ const styles = StyleSheet.create({
         borderColor: '#F5B820',
         paddingHorizontal: 15,
         marginBottom: 15,
-        fontSize: 16,
+        fontSize: width * 0.04, // Responsive font size
         color: '#333',
-        fontFamily: 'Inter',
+        fontWeight: 'bold',
     },
-    resetButton: {
+    phoneInputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '80%',
+        height: 50,
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: '#F5B820',
+        paddingHorizontal: 10,
+        marginBottom: 15,
+    },
+    flagIcon: {
+        width: 24,
+        height: 16,
+        marginRight: 10,
+    },
+    phoneInput: {
+        flex: 1,
+        fontSize: width * 0.04, // Responsive font size
+        color: '#333',
+        fontWeight: 'bold',
+    },
+    button: {
         width: '80%',
         height: 50,
         backgroundColor: '#004AAD',
-        borderRadius: 12,
+        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
+        marginTop: 0,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-    resetButtonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#FFF',
+    button1: {
+        width: '80%',
+        height: 50,
+        backgroundColor: '#F5B820',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 28,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    buttonText: {
+        fontSize: width * 0.04, // Responsive font size
         fontFamily: 'Inter',
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+    },
+    loginText: {
+        fontSize: width * 0.04, // Responsive font size
+        fontFamily: 'Inter',
+        color: '#000000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginHorizontal: 20,
+    },
+    loginText1: {
+        fontSize: width * 0.04, // Responsive font size
+        fontFamily: 'Inter',
+        color: '#000000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginHorizontal: 20,
+        marginBottom: 25,
+    },
+    loginText2: {
+        fontSize: width * 0.04, // Responsive font size
+        fontFamily: 'Inter',
+        color: '#000000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginHorizontal: 20,
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    loginContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 15,
+    },
+    loginLink: {
+        fontSize: width * 0.04, // Responsive font size
+        fontFamily: 'Inter',
+        color: '#FFFFFF',
+        marginLeft: -12,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+    },
+    pattern: {
+        color: '#F5B820', // Color for "PATTERN"
+    },
+    pal: {
+        color: '#36B0F6', // Color for "PAL"
     },
 });
