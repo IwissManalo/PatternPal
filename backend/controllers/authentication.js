@@ -1,8 +1,11 @@
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const db = require('../mysql/dbCon');
+const usersController = require('./usersController');
 
-// In-memory store for OTPs - in production, use a persistent store like Redis or DB
+// In-memory store for OTPs and pending user data - in production, use a persistent store like Redis or DB
 const otpStore = new Map();
+const pendingUsers = new Map();
 
 // Configure nodemailer transporter (example using Gmail SMTP)
 const transporter = nodemailer.createTransport({
@@ -30,26 +33,53 @@ async function sendOTPEmail(email, otp) {
   await transporter.sendMail(mailOptions);
 }
 
-// Create and send OTP
-exports.createAndSendOTP = async (email) => {
+// Create and send OTP and store pending user data
+exports.createAndSendOTPWithUser = async (req, res) => {
+  const { first_name, last_name, username, email, password, phone_number, account_role, user_credit } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
   const otp = generateOTP();
   otpStore.set(email, { otp, expiresAt: Date.now() + 10 * 60 * 1000 }); // expires in 10 minutes
-  await sendOTPEmail(email, otp);
+  pendingUsers.set(email, { first_name, last_name, username, email, password, phone_number, account_role, user_credit });
+  try {
+    await sendOTPEmail(email, otp);
+    res.status(200).json({ message: 'OTP sent to email' });
+  } catch (error) {
+    console.error('Error sending OTP email:', error);
+    res.status(500).json({ error: 'Failed to send OTP email' });
+  }
 };
 
-// Verify OTP
-exports.verifyOTP = (email, otp) => {
+// Verify OTP and finalize user registration
+exports.verifyOTPAndRegister = (req, res) => {
+  const { email, otp } = req.body;
   const record = otpStore.get(email);
   if (!record) {
-    return { success: false, message: 'OTP not found or expired' };
+    return res.status(400).json({ success: false, message: 'OTP not found or expired' });
   }
   if (record.expiresAt < Date.now()) {
     otpStore.delete(email);
-    return { success: false, message: 'OTP expired' };
+    pendingUsers.delete(email);
+    return res.status(400).json({ success: false, message: 'OTP expired' });
   }
   if (record.otp !== otp) {
-    return { success: false, message: 'Invalid OTP' };
+    return res.status(400).json({ success: false, message: 'Invalid OTP' });
   }
   otpStore.delete(email);
-  return { success: true, message: 'OTP verified successfully' };
+  const userData = pendingUsers.get(email);
+  if (!userData) {
+    return res.status(400).json({ success: false, message: 'User data not found for this email' });
+  }
+  pendingUsers.delete(email);
+  // Insert user into database
+  const sql = 'INSERT INTO users (first_name, last_name, username, email, password, phone_number, account_role, user_credit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [userData.first_name, userData.last_name, userData.username, userData.email, userData.password, userData.phone_number, userData.account_role, userData.user_credit];
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting user:', err);
+      return res.status(500).json({ success: false, message: 'Failed to register user' });
+    }
+    res.status(201).json({ success: true, message: 'User registered successfully', userId: result.insertId });
+  });
 };
