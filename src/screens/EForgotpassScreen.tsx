@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView, Platform, Modal } from 'react-native';
 
-export default function EVerificationScreen({ navigation }: { navigation: any }) {
+export default function EForgotpassScreen({ navigation }: { navigation: any }) {
     const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
     const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
     const inputRefs = useRef<Array<TextInput | null>>([]);
@@ -139,7 +139,7 @@ export default function EVerificationScreen({ navigation }: { navigation: any })
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#6BC9FF',
+        backgroundColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 20, // Add padding to prevent UI elements from being too close to the bottom
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontFamily: 'Inter',
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: '#36B0F6',
         textDecorationLine: 'underline',
         marginLeft: 5,
     },
@@ -286,10 +286,10 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     pattern: {
-        color: '#004AAD',
+        color: '#F5B820',
     },
     pal: {
-        color: '#FFFFFF',
+        color: '#36B0F6',
     },
 
 
