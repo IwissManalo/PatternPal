@@ -23,7 +23,7 @@ export default function StartScreen({ navigation }: { navigation: any }) {
             {/* GET STARTED Button */}
             <TouchableOpacity
                 style={[styles.button, { backgroundColor: '#004AAD' }]} // GET STARTED button color
-                onPress={() => navigation.navigate('SignupScreen')} // Navigate to SignupScreen
+                onPress={() => navigation.navigate('CarouselScreen1')} // Navigate to SignupScreen
             >
                 <Text style={styles.buttonText}>GET STARTED</Text>
             </TouchableOpacity>

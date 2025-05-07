@@ -16,6 +16,9 @@ import SplashScreen1 from '../screens/SplashScreen1';
 import SplashScreen2 from '../screens/SplashScreen2';
 import SplashScreen3 from '../screens/SplashScreen3';
 import SplashScreen4 from '../screens/SplashScreen4';
+import CarouselScreen1 from '../screens/CarouselScreen1';
+import CarouselScreen2 from '../screens/CarouselScreen2';
+import CarouselScreen3 from '../screens/CarouselScreen3';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +85,18 @@ export default function AppNavigator() {
                 <Stack.Screen
                     name="SplashScreen4"
                     component={SplashScreen4}
+                />
+                <Stack.Screen
+                    name="CarouselScreen1"
+                    component={CarouselScreen1}
+                />
+                <Stack.Screen
+                    name="CarouselScreen2"
+                    component={CarouselScreen2}
+                />
+                <Stack.Screen
+                    name="CarouselScreen3"
+                    component={CarouselScreen3}
                 />
             </Stack.Navigator>
         </NavigationContainer>
