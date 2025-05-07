@@ -20,7 +20,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3001/api/users/register', {
+            const response = await fetch('http://localhost:3001/api/users/signup/send-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,13 +38,13 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             });
             const data = await response.json();
             if (response.ok) {
-                Alert.alert('Success', 'User registered successfully');
+                Alert.alert('Success', 'OTP sent to email');
                 navigation.navigate('VerificationScreen');
             } else {
-                Alert.alert('Error', data.error || 'Registration failed');
+                Alert.alert('Error', data.error || 'Failed to send OTP');
             }
         } catch (error) {
-            Alert.alert('Error', 'Failed to register user');
+            Alert.alert('Error', 'Failed to send OTP');
             console.error(error);
         }
     };
@@ -87,7 +87,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
                         style={styles.input}
                         placeholder="Last Name"
                         placeholderTextColor="#999"
-                        value={email}
+                        value={lastName}
                         onChangeText={setLastName}
                     />
 
@@ -142,11 +142,11 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
                         style={styles.signupButton}
                         onPress={() => {
                             console.log('Proceed pressed');
-                            navigation.navigate('VerificationScreen'); // Redirect to VerificationScreen
-                        }}
-                    >
-                        <Text style={styles.signupButtonText}>PROCEED</Text>
-                    </TouchableOpacity>
+                    handleRegister();
+                }}
+            >
+                <Text style={styles.signupButtonText}>PROCEED</Text>
+            </TouchableOpacity>
 
                     {/* Log-in Link */}
                     <View style={styles.loginContainer}>
