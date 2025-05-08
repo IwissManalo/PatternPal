@@ -1,21 +1,38 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const ButtonGroup = () => {
+interface ButtonGroupProps {
+  currentScreen: string;
+  navigation: any;
+}
+
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ currentScreen, navigation }) => {
+  const buttons = [
+    { label: 'Daily Challenge', screen: 'DailyChallenge' },
+    { label: 'Cross-Stitch', screen: 'CrossStitch' },
+    { label: 'Paint by Numbers', screen: 'PaintByNumbers' },
+  ];
+
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.filledButton}>
-        <Text style={styles.filledText}>Daily Challenge</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.outlinedButton}>
-        <Text style={styles.outlinedText}>Cross-Stitch</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.outlinedButton}>
-        <Text style={styles.outlinedText}>Paint by Numbers</Text>
-      </TouchableOpacity>
+      {buttons.map((btn) => {
+        const isActive = currentScreen === btn.screen;
+        return (
+          <TouchableOpacity
+            key={btn.screen}
+            style={isActive ? styles.filledButton : styles.outlinedButton}
+            onPress={() => navigation.navigate(btn.screen)}
+          >
+            <Text style={isActive ? styles.filledText : styles.outlinedText}>
+              {btn.label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
