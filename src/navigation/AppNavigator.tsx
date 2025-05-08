@@ -26,78 +26,24 @@ export default function AppNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="SplashScreen1" screenOptions={{ headerShown: false }}>
-                <Stack.Screen
-                    name="StartScreen"
-                    component={StartScreen}
-                />
-                <Stack.Screen
-                    name="LoginScreen"
-                    component={LoginScreen}
-                />
-                <Stack.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                />
-                <Stack.Screen
-                    name="HomepageScreen"
-                    component={HomepageScreen}
-                />
-                <Stack.Screen
-                    name="ForgotpassScreen"
-                    component={ForgotpassScreen}
-                />
-                <Stack.Screen
-                    name="SignupScreen"
-                    component={SignupScreen}
-                />
-                <Stack.Screen
-                    name="VerificationScreen"
-                    component={VerificationScreen}
-                />
-                <Stack.Screen
-                    name="EVerificationScreen"
-                    component={EVerificationScreen}
-                />
-                <Stack.Screen
-                    name="PVerificationScreen"
-                    component={PVerificationScreen}
-                />
-                <Stack.Screen
-                    name="EForgotpassScreen"
-                    component={EForgotpassScreen}
-                />
-                <Stack.Screen
-                    name="PForgotpassScreen"
-                    component={PForgotpassScreen}
-                />
-                <Stack.Screen
-                    name="SplashScreen1"
-                    component={SplashScreen1}
-                />
-                <Stack.Screen
-                    name="SplashScreen2"
-                    component={SplashScreen2}
-                />
-                <Stack.Screen
-                    name="SplashScreen3"
-                    component={SplashScreen3}
-                />
-                <Stack.Screen
-                    name="SplashScreen4"
-                    component={SplashScreen4}
-                />
-                <Stack.Screen
-                    name="CarouselScreen1"
-                    component={CarouselScreen1}
-                />
-                <Stack.Screen
-                    name="CarouselScreen2"
-                    component={CarouselScreen2}
-                />
-                <Stack.Screen
-                    name="CarouselScreen3"
-                    component={CarouselScreen3}
-                />
+                <Stack.Screen name="StartScreen" component={StartScreen}/>
+                <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+                <Stack.Screen name="Settings" component={SettingsScreen}/>
+                <Stack.Screen name="HomepageScreen" component={HomepageScreen}/>
+                <Stack.Screen name="ForgotpassScreen" component={ForgotpassScreen}/>
+                <Stack.Screen name="SignupScreen" component={SignupScreen}/>
+                <Stack.Screen name="VerificationScreen" component={VerificationScreen}/>
+                <Stack.Screen name="EVerificationScreen" component={EVerificationScreen}/>
+                <Stack.Screen name="PVerificationScreen" component={PVerificationScreen}/>
+                <Stack.Screen name="EForgotpassScreen" component={EForgotpassScreen}/>
+                <Stack.Screen name="PForgotpassScreen" component={PForgotpassScreen}/>
+                <Stack.Screen name="SplashScreen1" component={SplashScreen1}/>
+                <Stack.Screen name="SplashScreen2" component={SplashScreen2}/>
+                <Stack.Screen name="SplashScreen3" component={SplashScreen3}/>
+                <Stack.Screen name="SplashScreen4" component={SplashScreen4}/>
+                <Stack.Screen name="CarouselScreen1" component={CarouselScreen1}/>
+                <Stack.Screen name="CarouselScreen2" component={CarouselScreen2}/>
+                <Stack.Screen name="CarouselScreen3" component={CarouselScreen3}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
