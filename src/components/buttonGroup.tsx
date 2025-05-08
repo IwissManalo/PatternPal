@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingVertical: 10,
     backgroundColor: '#fff',
-    marginLeft: 10,
-    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   filledButton: {
     backgroundColor: '#F3C343',
