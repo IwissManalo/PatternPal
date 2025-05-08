@@ -6,9 +6,7 @@ import HomepageScreen from '../screens/HomepageScreen';
 import SignupScreen from '../screens/SignupScreen';
 import ForgotpassScreen from '../screens/ForgotpassScreen';
 import VerificationScreen from '../screens/VerificationScreen';
-import EVerificationScreen from '../screens/EVerificationScreen';
 import PVerificationScreen from '../screens/PVerificationScreen';
-import EForgotpassScreen from '../screens/EForgotpassScreen';
 import PForgotpassScreen from '../screens/PForgotpassScreen';
 import LoginScreen from '../screens/LoginScreen';
 import StartScreen from '../screens/StartScreen';
@@ -52,16 +50,8 @@ export default function AppNavigator() {
                     component={VerificationScreen}
                 />
                 <Stack.Screen
-                    name="EVerificationScreen"
-                    component={EVerificationScreen}
-                />
-                <Stack.Screen
                     name="PVerificationScreen"
                     component={PVerificationScreen}
-                />
-                <Stack.Screen
-                    name="EForgotpassScreen"
-                    component={EForgotpassScreen}
                 />
                 <Stack.Screen
                     name="PForgotpassScreen"

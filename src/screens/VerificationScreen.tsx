@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform, Dimensions, Alert } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -7,6 +7,24 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isPressed, setIsPressed] = useState(false);
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        return emailRegex.test(email);
+    };
+
+    const handleSendCodeToEmail = () => {
+        if (!email) {
+            Alert.alert('Error', 'Please enter your email.');
+            return;
+        }
+        if (!validateEmail(email)) {
+            Alert.alert('Error', 'Please enter a valid email address.');
+            return;
+        }
+        // Navigate to EVerificationScreen with email param
+        navigation.navigate('EVerificationScreen', { email });
+    };
 
     return (
         <KeyboardAvoidingView
@@ -45,6 +63,8 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                         placeholderTextColor="#999"
                         value={email}
                         onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
                     />
 
                     <TouchableOpacity
@@ -54,9 +74,7 @@ export default function VerificationScreen({ navigation }: { navigation: any }) 
                         ]}
                         onPressIn={() => setIsPressed(true)}
                         onPressOut={() => setIsPressed(false)}
-                        onPress={() => {
-                            navigation.navigate('EVerificationScreen'); // Use the correct screen name
-                        }}
+                        onPress={handleSendCodeToEmail}
                     >
                         <Text style={styles.buttonText}>SEND CODE TO EMAIL</Text>
                     </TouchableOpacity>

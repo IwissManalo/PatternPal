@@ -8,6 +8,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
+    Alert,
+    ActivityIndicator,
 } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,6 +24,35 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleLogin = async () => {
+        if (!username || !password) {
+            Alert.alert('Error', 'Please enter both username and password.');
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                // Login successful, navigate to HomepageScreen
+                navigation.navigate('HomepageScreen');
+            } else {
+                Alert.alert('Login Failed', data.error || 'Invalid username or password');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to connect to server. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -49,6 +80,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                     placeholderTextColor="#999"
                     value={username}
                     onChangeText={setUsername}
+                    autoCapitalize="none"
                 />
 
                 {/* Password Input with Eye Icon */}
@@ -60,6 +92,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                         secureTextEntry={!passwordVisible}
                         value={password}
                         onChangeText={setPassword}
+                        autoCapitalize="none"
                     />
                     <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
                         <Ionicons
@@ -94,13 +127,14 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                     style={[styles.button, isPressed && { backgroundColor: '#36B0F6' }]}
                     onPressIn={() => setIsPressed(true)}
                     onPressOut={() => setIsPressed(false)}
-                    onPress={() => {
-                        console.log('Username:', username);
-                        console.log('Password:', password);
-                        navigation.navigate('HomepageScreen');
-                    }}
+                    onPress={handleLogin}
+                    disabled={loading}
                 >
-                    <Text style={styles.buttonText}>LOG-IN</Text>
+                    {loading ? (
+                        <ActivityIndicator size="small" color="#FFFFFF" />
+                    ) : (
+                        <Text style={styles.buttonText}>LOG-IN</Text>
+                    )}
                 </TouchableOpacity>
 
                 {/* Sign-up Text */}

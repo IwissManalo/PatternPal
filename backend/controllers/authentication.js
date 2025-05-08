@@ -44,6 +44,7 @@ exports.createAndSendOTPWithUser = async (req, res) => {
   pendingUsers.set(email, { first_name, last_name, username, email, password, phone_number, account_role, user_credit });
   try {
     await sendOTPEmail(email, otp);
+    console.log(`OTP sent successfully to ${email}`); // Log success
     res.status(200).json({ message: 'OTP sent to email' });
   } catch (error) {
     console.error('Error sending OTP email:', error);
