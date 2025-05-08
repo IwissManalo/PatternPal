@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ navigation, title = 'Cross-Stitch', coi
         {coinCount !== undefined && (
           <View style={styles.rightSection}>
             <Image
-              source={require('../assets/images/pic3.png')}
+              source={require('../assets/images/ppal coin.png')}
               style={styles.coinImage}
             />
             <Text style={styles.coinText}>{coinCount}</Text>
