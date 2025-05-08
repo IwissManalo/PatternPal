@@ -1,101 +1,58 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import Header from '../components/header';
+import ButtonGroup from '../components/buttonGroup';
 
 export default function HomepageScreen({ navigation }: { navigation: any }) {
-    return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image
-                source={require('../assets/images/Logo.png')} // Adjust the path to your logo
-                style={styles.logo}
-                resizeMode="contain"
-            />
+  return (
+    <View style={styles.container}>
 
-            {/* Welcome Message */}
-            <Text style={styles.welcomeText}>Welcome to PatternPal!</Text>
-            <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
+    <Header navigation={navigation} title="Daily Challenge" coinCount={4224} />
+    <ButtonGroup />
 
-            {/* Navigation Buttons */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('ProfileScreen')} // Navigate to Profile
-            >
-                <Text style={styles.buttonText}>Go to Profile</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Settings')} // Navigate to Settings
-            >
-                <Text style={styles.buttonText}>Go to Settings</Text>
-            </TouchableOpacity>
-
-            {/* Sign Up Link */}
-            <View style={styles.signupContainer}>
-                <Text style={styles.signupText}>Don't have an account yet?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-                    <Text style={styles.signupLink}>Sign up here</Text>
-                </TouchableOpacity>
-            </View>
+      <View style={styles.titleContainer}>
+        <View>
+            <Text style={styles.monthText}>March 31</Text>
+            <Text style={styles.dayText}>Wednesday</Text>
         </View>
-    );
+        <Text style={styles.statusText}>Start your Challenge</Text> 
+        </View>
+
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFDA7D',
-    },
-    logo: {
-        width: 200,
-        height: 200,
-        marginBottom: 20,
-    },
-    welcomeText: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: '#333',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    subtitle: {
-        fontSize: 18,
-        color: '#555',
-        textAlign: 'center',
-        marginBottom: 30,
-    },
-    button: {
-        width: '80%',
-        height: 50,
-        backgroundColor: '#004AAD',
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#FFF',
-    },
-    signupContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    signupText: {
-        fontSize: 14,
-        color: '#333',
-    },
-    signupLink: {
-        fontSize: 14,
-        color: '#004AAD',
-        marginLeft: 5,
-        textDecorationLine: 'underline',
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  statusText: {
+    color: '#fff',
+    fontSize: 13,
+    alignSelf: 'center',
+  },
+  titleContainer: {
+    backgroundColor: '#36B0F6',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#004AAD',
+    flexDirection: 'row',           
+    justifyContent: 'space-between',
+    alignItems: 'center',           
+  },
+  monthText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  dayText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
-
