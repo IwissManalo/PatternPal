@@ -1,11 +1,17 @@
-import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, Image, ScrollView} from 'react-native';
 import Header from '../components/header';
 import ButtonGroup from '../components/buttonGroup';
 import PatternCard from '../components/PatternCard';
-import {ScrollView} from 'react-native';
+import NavBar from '../components/NavBar';
 
 export default function HomepageScreen({navigation}: {navigation: any}) {
+  const [currentTab, setCurrentTab] = useState('Home');
+
+  const handleTabPress = (tab: string) => {
+    setCurrentTab(tab);
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -135,6 +141,8 @@ export default function HomepageScreen({navigation}: {navigation: any}) {
           ))}
         </ScrollView>
       </ScrollView>
+
+      <NavBar currentTab={currentTab} onTabPress={handleTabPress} />
     </View>
   );
 }
