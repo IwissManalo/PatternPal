@@ -1,101 +1,220 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text, Image, ScrollView} from 'react-native';
+import Header from '../components/header';
+import ButtonGroup from '../components/buttonGroup';
+import PatternCard from '../components/PatternCard';
+import NavBar from '../components/NavBar';
 
-export default function HomepageScreen({ navigation }: { navigation: any }) {
-    return (
-        <View style={styles.container}>
-            {/* Logo */}
-            <Image
-                source={require('../assets/images/Logo.png')} // Adjust the path to your logo
-                style={styles.logo}
-                resizeMode="contain"
-            />
+export default function HomepageScreen({navigation}: {navigation: any}) {
+  const [currentTab, setCurrentTab] = useState('Home');
 
-            {/* Welcome Message */}
-            <Text style={styles.welcomeText}>Welcome to PatternPal!</Text>
-            <Text style={styles.subtitle}>Create. Craft. Connect.</Text>
+  const handleTabPress = (tab: string) => {
+    setCurrentTab(tab);
+  };
 
-            {/* Navigation Buttons */}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('ProfileScreen')} // Navigate to Profile
-            >
-                <Text style={styles.buttonText}>Go to Profile</Text>
-            </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <Header
+        navigation={navigation}
+        title="Daily Challenge"
+        coinCount={4224}
+      />
 
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Settings')} // Navigate to Settings
-            >
-                <Text style={styles.buttonText}>Go to Settings</Text>
-            </TouchableOpacity>
+      <ButtonGroup currentScreen="DailyChallenge" navigation={navigation} />
 
-            {/* Sign Up Link */}
-            <View style={styles.signupContainer}>
-                <Text style={styles.signupText}>Don't have an account yet?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-                    <Text style={styles.signupLink}>Sign up here</Text>
-                </TouchableOpacity>
-            </View>
+      <ScrollView>
+        <View style={styles.titleContainer}>
+          <View>
+            <Text style={styles.monthText}>March 31</Text>
+            <Text style={styles.dayText}>Wednesday</Text>
+          </View>
+          <Text style={styles.statusText}>Start your Challenge</Text>
         </View>
-    );
+
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>
+            Choose your preferred pattern based on the following difficulty and
+            obtain
+            <Image
+              source={require('../assets/images/ppal coin.png')}
+              style={styles.inlineImage}
+            />
+            oins
+          </Text>
+        </View>
+
+        <View style={styles.separator} />
+
+        <View style={{paddingLeft: 20, paddingTop: 10}}>
+          <Text style={styles.sectionTitle}>
+            THREAD EXPLORER <Text style={{color: '#F3C343'}}>(BEGINNER)</Text>
+          </Text>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingLeft: 20,
+            paddingTop: 10,
+            paddingBottom: 10,
+          }}>
+          {[...Array(4)].map((_, index) => (
+            <PatternCard
+              key={index}
+              name="Penguin Heart"
+              coin={20}
+              image={require('../assets/images/penguinHeart.png')}
+            />
+          ))}
+        </ScrollView>
+
+        <View style={{paddingLeft: 20, paddingTop: 10}}>
+          <Text style={styles.sectionTitle}>
+            STITCH CRAFTER <Text style={{color: '#F3C343'}}>(MEDIUM)</Text>
+          </Text>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingLeft: 20,
+            paddingTop: 10,
+            paddingBottom: 30,
+          }}>
+          {[...Array(4)].map((_, index) => (
+            <PatternCard
+              key={index}
+              name="Penguin Heart"
+              coin={30}
+              image={require('../assets/images/penguinHeart.png')}
+            />
+          ))}
+        </ScrollView>
+
+        <View style={{paddingLeft: 20}}>
+          <Text style={styles.sectionTitle}>
+            PATTERN ARTISAN <Text style={{color: '#F3C343'}}>(HARD)</Text>
+          </Text>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingLeft: 20,
+            paddingTop: 10,
+            paddingBottom: 30,
+          }}>
+          {[...Array(4)].map((_, index) => (
+            <PatternCard
+              key={index}
+              name="Penguin Heart"
+              coin={40}
+              image={require('../assets/images/penguinHeart.png')}
+            />
+          ))}
+        </ScrollView>
+
+        <View style={{paddingLeft: 20}}>
+          <Text style={styles.sectionTitle}>
+            MASTER EMBROIDERER
+            <Text style={{color: '#F3C343'}}>(EXTRA HARD)</Text>
+          </Text>
+        </View>
+
+        <ScrollView
+          horizontal
+          contentContainerStyle={{
+            paddingLeft: 20,
+            paddingTop: 10,
+            paddingBottom: 30,
+          }}>
+          {[...Array(4)].map((_, index) => (
+            <PatternCard
+              key={index}
+              name="Penguin Heart"
+              coin={50}
+              image={require('../assets/images/penguinHeart.png')}
+            />
+          ))}
+        </ScrollView>
+      </ScrollView>
+
+      <NavBar currentTab={currentTab} onTabPress={handleTabPress} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFDA7D',
-    },
-    logo: {
-        width: 200,
-        height: 200,
-        marginBottom: 20,
-    },
-    welcomeText: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: '#333',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    subtitle: {
-        fontSize: 18,
-        color: '#555',
-        textAlign: 'center',
-        marginBottom: 30,
-    },
-    button: {
-        width: '80%',
-        height: 50,
-        backgroundColor: '#004AAD',
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#FFF',
-    },
-    signupContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    signupText: {
-        fontSize: 14,
-        color: '#333',
-    },
-    signupLink: {
-        fontSize: 14,
-        color: '#004AAD',
-        marginLeft: 5,
-        textDecorationLine: 'underline',
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  statusText: {
+    color: '#fff',
+    fontSize: 13,
+    alignSelf: 'center',
+  },
+  titleContainer: {
+    backgroundColor: '#36B0F6',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#004AAD',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  monthText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  dayText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  descriptionContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginLeft: 15,
+    marginRight: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  descriptionText: {
+    color: '#004AAD',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  inlineImage: {
+    width: 17,
+    height: 17,
+    resizeMode: 'contain',
+    transform: [{translateY: 4}],
+  },
+  coinImage: {
+    width: 24,
+    height: 24,
+    marginRight: 0,
+  },
+  separator: {
+    height: 3,
+    backgroundColor: '#004AAD',
+    marginHorizontal: 35,
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    textAlign: 'center',
+    color: '#004AAD',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
-
