@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 // Import both outlined and filled SVGs
@@ -60,6 +60,8 @@ const NavBar: React.FC<NavBarProps> = ({currentTab, onTabPress}) => {
       {tabs.map(tab => {
         const IconComponent =
           currentTab === tab.label ? tab.filled : tab.outlined;
+        const isActive = currentTab === tab.label; // ✅ define this
+
         return (
           <TouchableOpacity
             key={tab.label}
@@ -73,6 +75,9 @@ const NavBar: React.FC<NavBarProps> = ({currentTab, onTabPress}) => {
               height={currentTab === tab.label ? 50 : 28}
               fill={currentTab === tab.label ? '#004AAD' : '#fff'}
             />
+            <Text style={[styles.label, isActive && styles.activeLabel]}>
+              {tab.label}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -83,7 +88,7 @@ const NavBar: React.FC<NavBarProps> = ({currentTab, onTabPress}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 70,
+    height: 80,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
@@ -92,6 +97,16 @@ const styles = StyleSheet.create({
   },
   tab: {
     alignItems: 'center',
+  },
+  label: {
+    fontSize: 10,
+    color: '#004AAD',
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  activeLabel: {
+    color: '#004AAD',
+    fontWeight: 'bold',
   },
 });
 
