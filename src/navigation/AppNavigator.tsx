@@ -14,6 +14,7 @@ import SplashScreen1 from '../screens/SplashScreen1';
 import SplashScreen2 from '../screens/SplashScreen2';
 import SplashScreen3 from '../screens/SplashScreen3';
 import SplashScreen4 from '../screens/SplashScreen4';
+import EVerificationScreen from '../screens/EVerificationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,10 @@ export default function AppNavigator() {
                 <Stack.Screen
                     name="VerificationScreen"
                     component={VerificationScreen}
+                />
+                <Stack.Screen
+                    name="EVerificationScreen"
+                    component={EVerificationScreen}
                 />
                 <Stack.Screen
                     name="PVerificationScreen"

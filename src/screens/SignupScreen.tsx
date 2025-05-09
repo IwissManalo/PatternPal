@@ -20,7 +20,7 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3001/api/users/signup/send-otp', {
+            const response = await fetch('http:///192.168.0.4:3001/api/users/signup/send-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,11 +144,11 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
                         style={styles.signupButton}
                         onPress={() => {
                             console.log('Proceed pressed');
-                    handleRegister();
-                }}
-            >
-                <Text style={styles.signupButtonText}>PROCEED</Text>
-            </TouchableOpacity>
+                            handleRegister();
+                        }}
+                    >
+                        <Text style={styles.signupButtonText}>PROCEED</Text>
+                    </TouchableOpacity>
 
                     {/* Log-in Link */}
                     <View style={styles.loginContainer}>

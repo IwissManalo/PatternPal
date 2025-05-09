@@ -33,7 +33,8 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
         }
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            // Use IP address 127.0.0.1 instead of localhost for better compatibility
+            const response = await fetch('http://192.168.0.4:3001/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,9 +47,11 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                 navigation.navigate('HomepageScreen');
             } else {
                 Alert.alert('Login Failed', data.error || 'Invalid username or password');
+                console.error('Login failed:', data);
             }
         } catch (error) {
             Alert.alert('Error', 'Failed to connect to server. Please try again later.');
+            console.error('Network error:', error);
         } finally {
             setLoading(false);
         }

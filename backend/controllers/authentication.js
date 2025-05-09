@@ -1,3 +1,4 @@
+require('dotenv').config();
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const db = require('../mysql/dbCon');
@@ -44,7 +45,7 @@ exports.createAndSendOTPWithUser = async (req, res) => {
   pendingUsers.set(email, { first_name, last_name, username, email, password, phone_number, account_role, user_credit });
   try {
     await sendOTPEmail(email, otp);
-    console.log(`OTP sent successfully to ${email}`); // Log success
+    console.log(`OTP sent successfully to ${email}. OTP: ${otp}`); // Log success with OTP
     res.status(200).json({ message: 'OTP sent to email' });
   } catch (error) {
     console.error('Error sending OTP email:', error);
