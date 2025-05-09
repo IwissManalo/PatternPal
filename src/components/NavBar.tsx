@@ -51,7 +51,7 @@ const NavBar: React.FC<NavBarProps> = ({currentTab, onTabPress}) => {
       label: 'Leaderboards',
       outlined: LeaderboardOutlined,
       filled: LeaderboardFilled,
-      route: 'LoginScreen', // Adjust this route
+      route: 'HomepageScreen', // Adjust this route
     },
   ];
 
