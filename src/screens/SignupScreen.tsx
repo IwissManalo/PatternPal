@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
+import { getIpAddress } from '../utils/ipStorage';
+
 export default function SignupScreen({ navigation }: { navigation: any }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -20,7 +22,8 @@ export default function SignupScreen({ navigation }: { navigation: any }) {
             return;
         }
         try {
-            const response = await fetch('http:///192.168.0.4:3001/api/users/signup/send-otp', {
+            const ipAddress = await getIpAddress();
+            const response = await fetch(`http://${ipAddress}/api/users/signup/send-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

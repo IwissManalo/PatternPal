@@ -17,6 +17,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 
+import { getIpAddress } from '../utils/ipStorage';
+
 export default function LoginScreen({ navigation }: { navigation: any }) {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [username, setUsername] = useState('');
@@ -33,8 +35,8 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
         }
         setLoading(true);
         try {
-            // Use IP address 127.0.0.1 instead of localhost for better compatibility
-            const response = await fetch('http://192.168.0.4:3001/api/users/login', {
+            const ipAddress = await getIpAddress();
+            const response = await fetch(`http://${ipAddress}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
